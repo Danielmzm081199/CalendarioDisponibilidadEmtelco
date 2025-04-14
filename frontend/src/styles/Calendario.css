@@ -1,0 +1,61 @@
+.calendar-container {
+  min-height: 90vh;
+  background: linear-gradient(#dbeafe, #0032fa); 
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.calendar-box {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1100px;
+  width: 100%;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #05004b; /* Indigo-700 */
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Personalizar eventos del calendario */
+/* .fc-event {
+  background-color: #000131 !important; 
+  color: #fff !important;
+  border: none;
+  border-radius: 6px;
+  padding: 2px 4px;
+} */
+
+.modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+}
