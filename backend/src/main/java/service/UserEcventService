@@ -1,0 +1,18 @@
+@Service
+public class UserEventService {
+
+    @Autowired
+    private UserEventRepository repository;
+
+    public List<UserEvent> getEventsByArea(String area) {
+        return repository.findByArea(area);
+    }
+
+    public UserEvent saveEvent(UserEvent event) {
+        return repository.save(event);
+    }
+
+    public void deleteEvent(Long id) {
+        repository.deleteById(id);
+    }
+}

@@ -1,0 +1,26 @@
+body {
+    
+  margin: 0;
+  background: linear-gradient(to right,#01046c,#100131);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.namemtelco{
+    display: flex;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:white;
+    position: absolute;
+    top: 10px;         /* Margen desde arriba */
+    right: 10vh;       /* Margen desde la derecha */
+    font-size: 40px;   /* Tamaño del texto */
+    font-weight: bold  /* Negrita */
+    
+   }
+@media (max-width: 768px) {
+    .namemtelco {
+      display: none !important;
+    }
+  }

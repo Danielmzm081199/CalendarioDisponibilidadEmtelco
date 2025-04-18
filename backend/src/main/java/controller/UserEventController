@@ -1,0 +1,23 @@
+@RestController
+@RequestMapping("/api/events")
+@CrossOrigin(origins = "*") // para permitir acceso desde React
+public class UserEventController {
+
+    @Autowired
+    private UserEventService service;
+
+    @GetMapping("/{area}")
+    public List<UserEvent> getEventsByArea(@PathVariable String area) {
+        return service.getEventsByArea(area);
+    }
+
+    @PostMapping
+    public UserEvent saveEvent(@RequestBody UserEvent event) {
+        return service.saveEvent(event);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEvent(@PathVariable Long id) {
+        service.deleteEvent(id);
+    }
+}

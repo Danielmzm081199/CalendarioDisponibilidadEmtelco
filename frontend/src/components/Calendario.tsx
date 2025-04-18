@@ -1,40 +1,35 @@
+import { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { DateSelectArg, EventInput } from "@fullcalendar/core";
-import { useState } from "react";
+import { DateSelectArg, EventClickArg, EventInput } from "@fullcalendar/core";
 
-// Simulando un directorio de usuarios
 const userDirectory = [
   { name: "Daniel", contact: "3001234567" },
   { name: "Laura", contact: "3019876543" },
   { name: "Pedro", contact: "3025551212" },
 ];
 
-const Calendar = () => {
+const Calendario = () => {
   const [areas, setAreas] = useState<string[]>(["CRM", "Marketing", "Programación"]);
   const [selectedArea, setSelectedArea] = useState("CRM");
-
   const [areaEvents, setAreaEvents] = useState<{ [key: string]: EventInput[] }>({
     CRM: [],
     Marketing: [],
     Programación: [],
   });
-
   const [nameColors, setNameColors] = useState<{ [key: string]: string }>({});
   const [selectedRange, setSelectedRange] = useState<{ start: string; end: string } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
-  const [newArea, setNewArea] = useState("");
 
-  const generarColorAleatorio = () => {
-    const letras = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letras[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
+  const generarColorAleatorio = (): string => {
+  const getDarkValue = () => Math.floor(Math.random() * 100); //colores 
+  const r = getDarkValue();
+  const g = getDarkValue();
+  const b = getDarkValue();
+  return `rgb(${r}, ${g}, ${b})`;
+};
 
   const handleSelect = (info: DateSelectArg) => {
     setSelectedRange({ start: info.startStr, end: info.endStr });
@@ -46,72 +41,85 @@ const Calendar = () => {
 
     const user = userDirectory[selectedUserIndex];
     const key = `${user.name}-${user.contact}`;
-
     let color = nameColors[key];
+
     if (!color) {
       color = generarColorAleatorio();
       setNameColors((prev) => ({ ...prev, [key]: color }));
     }
 
-    const newEvent = {
-      title: `${user.name} - ${user.contact}`,
-      start: selectedRange.start,
-      end: selectedRange.end,
-      allDay: true,
-      backgroundColor: color,
-      borderColor: color,
-    };
+    const startDate = new Date(selectedRange.start);
+    const endDate = new Date(selectedRange.end);
+    const newEvents: EventInput[] = [];
+
+    for (let d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
+      const dateStr = d.toISOString().slice(0, 10);
+      newEvents.push({
+        title: `${user.name} - ${user.contact}`,
+        start: dateStr,
+        end: dateStr,
+        allDay: true,
+        backgroundColor: color,
+        borderColor: color,
+      });
+    }
 
     setAreaEvents((prev) => ({
       ...prev,
-      [selectedArea]: [...(prev[selectedArea] || []), newEvent],
+      [selectedArea]: [...(prev[selectedArea] || []), ...newEvents],
     }));
 
     setShowModal(false);
     setSelectedUserIndex(null);
+    setSelectedRange(null);
   };
 
-  const handleAddArea = () => {
-    const areaName = newArea.trim();
-    if (areaName && !areas.includes(areaName)) {
-      setAreas([...areas, areaName]);
-      setAreaEvents((prev) => ({ ...prev, [areaName]: [] }));
-      setSelectedArea(areaName);
-      setNewArea("");
+  const handleEventClick = (clickInfo: EventClickArg) => {
+    const confirmDelete = window.confirm("¿Deseas eliminar este evento?");
+    if (!confirmDelete) return;
+
+    setAreaEvents((prev) => {
+      const updated = { ...prev };
+      updated[selectedArea] = updated[selectedArea].filter(
+        (event) => event.start !== clickInfo.event.startStr || event.title !== clickInfo.event.title
+      );
+      return updated;
+    });
+  };
+
+  const isDateRangeAvailable = (startStr: string, endStr: string): boolean => {
+    const startDate = new Date(startStr);
+    const endDate = new Date(endStr);
+
+    const allEvents = Object.values(areaEvents).flat();
+
+    for (let d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
+      const dayStr = d.toISOString().slice(0, 10);
+      const isTaken = allEvents.some(event => {
+        const eventDate = new Date(event.start as string).toISOString().slice(0, 10);
+        return eventDate === dayStr;
+      });
+      if (isTaken) return false;
+    }
+    return true;
+  };
+  const handleClearCalendar = () => {
+    const confirmClear = window.confirm("¿Estás seguro de que quieres limpiar el calendario?");
+    if (confirmClear) {
+      setAreaEvents((prev) => ({
+        ...prev,
+        [selectedArea]: [],
+      }));
     }
   };
 
   return (
-    <div className="p-4">
-      {/* Selector de área */}
-      <div className="mb-4">
-        <label className="mr-2">Selecciona el área:</label>
-        <select value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)}>
-          {areas.map((area) => (
-            <option key={area} value={area}>
-              {area}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Crear nueva área */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Nueva área"
-          value={newArea}
-          onChange={(e) => setNewArea(e.target.value)}
-        />
-        <button onClick={handleAddArea}>Agregar área</button>
-      </div>
-
-      {/* Modal para seleccionar usuario */}
+    <div>
       {showModal && (
         <>
           <div className="overlay" />
           <div className="modal">
-            <h3>Seleccionar usuario del directorio</h3>
+            <h4>Seleccionar usuario del directorio</h4>
             <select
               value={selectedUserIndex ?? ""}
               onChange={(e) => setSelectedUserIndex(parseInt(e.target.value))}
@@ -124,23 +132,29 @@ const Calendar = () => {
               ))}
             </select>
             <button onClick={handleSubmit}>Guardar</button>
+            <button onClick={() => setShowModal(false)}>Cancelar</button>
           </div>
         </>
       )}
+      <button onClick={handleClearCalendar} className="boton-limpiar">Limpiar Calendario</button>
 
-      {/* Calendario */}
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={areaEvents[selectedArea]}
         selectable={true}
         select={handleSelect}
+        eventClick={handleEventClick}
         validRange={{ start: new Date() }}
         locale="es"
         height="auto"
+        showNonCurrentDates={false}
+        selectAllow={(selectInfo) => {
+          return isDateRangeAvailable(selectInfo.startStr, selectInfo.endStr);
+        }}
       />
     </div>
   );
 };
 
-export default Calendar;
+export default Calendario;

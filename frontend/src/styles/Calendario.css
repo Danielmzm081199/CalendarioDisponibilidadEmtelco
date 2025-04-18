@@ -1,61 +1,124 @@
 .calendar-container {
-  min-height: 90vh;
-  background: linear-gradient(#dbeafe, #0032fa); 
+
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  border-end-start-radius: 1%;
+  border-bottom-right-radius: 1%;
+  letter-spacing: 1px;
+  color: #1f005c;
+  min-height: 60vh;
+  background: white; 
   padding: 2rem;
-  display: flex;
   align-items: center;
   justify-content: right;
+  width: 150dvh;
+  
 }
 
-.calendar-box {
-  background: white;
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  max-width: 1100px;
-  width: 100%;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
-}
-
-.calendar-title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #05004b; /* Indigo-700 */
+.disponibilidadHead{
+  
+  background-color: #08012d;
+  font-family: monospace;
   text-align: center;
-  margin-bottom: 1.5rem;
+  color: rgb(255, 255, 255);
 }
 
-/* Personalizar eventos del calendario */
-/* .fc-event {
-  background-color: #000131 !important; 
-  color: #fff !important;
-  border: none;
-  border-radius: 6px;
-  padding: 2px 4px;
-} */
 
 .modal {
+   
+  color: rgb(80, 3, 3);
   position: fixed;
-  top: 30%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -30%);
-  background: white;
-  border-radius: 10px;
+  background: rgb(255, 255, 255);
+  border-radius: 30px;
   padding: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  box-shadow: 0 0 20px rgba(10, 0, 196, 0.2);
   z-index: 1000;
 }
+.modal button{
+
+  border-radius: 20px;
+  color: white;
+  background:#1201a4;
+  width: 25%;
+}
+
+.modal select{
+
+  border-radius: 2%;
+  color: white;
+  background:#1201a4;
+  
+}
+
+.modal option{
+
+  color: white;
+  background:#1201a4;
+}
+
 .overlay {
+
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(2, 0, 63, 0.5);
   z-index: 999;
 }
 input {
+
   display: block;
   margin-bottom: 10px;
   padding: 8px;
   width: 100%;
 }
+
+.boton-limpiar {
+  
+  display: flex;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #7d0d01;
+  color: white;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.5s;
+  z-index: 1000;
+}
+
+.boton-limpiar:hover {
+
+  background-color: #c0392b;
+}
+
+.icono-superior {
+
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  z-index: 999;
+}
+
+.logo-icono {
+  width: 60px;
+  height: 60px;
+}
+
+.SubtituloCalendario{
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 1px;
+  left: 70px;
+
+}
+
+
+

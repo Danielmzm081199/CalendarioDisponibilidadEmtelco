@@ -1,0 +1,23 @@
+@Entity
+@Table(name = "user_event")
+public class UserEvent {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String area;
+
+    private String userName;
+    private String userContact;
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    private boolean allDay;
+
+    private String backgroundColor;
+    private String borderColor;
+
+    // getters y setters
+}

@@ -1,20 +1,20 @@
-import Calendario from "./components/Calendario"; 
-import "./styles/Calendario.css"
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/LoginPage";
+import Disponibilidad from "./pages/DisponibilidadPage";
+import Registro from "./pages/RegistroPage";
 
-
-// import Login from "./components/Login";
 function App() {
-  
-  return (
-    
-    
-    < div>
-      
-      <Calendario/>
 
-      {/* <Login/> */}
-    </div>
+  return (
+
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/disponibilidad" element={<Disponibilidad />} />
+      <Route path="/registro" element={<Registro />} />
+    </Routes>
+
   );
 }
 
 export default App;
+

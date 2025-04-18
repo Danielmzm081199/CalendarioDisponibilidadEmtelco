@@ -1,6 +1,4 @@
-/* src/components/Login.css */
-
-.login-container {
+ .form-container {
     max-width: 400px;
     margin: 0 auto;
     padding: 2rem;
@@ -11,19 +9,18 @@
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
     width: 350px;
-}
-
-.login-container h2 {
+  }
+  
+  .form-container h2 {
     color: #333;
     margin-bottom: 25px;
     text-align: center;
     margin-bottom: 1rem;
     color: #120047;
-}
-
-.login-container label {
+  }
+  
+  .form-container label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: bold;
@@ -32,19 +29,19 @@
     color: #555;
     font-weight: bold;
     text-align: left;
-}
-
-.login-container input[type="text"],
-.login-container input[type="password"] {
+  }
+  
+  .form-container input {
     width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
-}
-
-.login-container button {
+  }
+  
+  .form-container button {
+    
     background-color: #120047;
     color: white;
     padding: 12px 20px;
@@ -54,14 +51,10 @@
     font-size: 1em;
     width: 100%;
     
-}
 
-.login-container button:hover {
+  }
+  
+  .form-container button:hover {
     background-color: #1565c0;
-}
-
-.login-container .error-message {
-    color: red;
-    margin-top: 10px;
-    font-size: 0.9em;
-}
+    
+  }
