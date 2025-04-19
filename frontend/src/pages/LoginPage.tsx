@@ -31,7 +31,12 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <h1 className="namemtelco">EMTELCO</h1>
+      <div className="icono-superior">
+          <h1 className="SubtituloCalendario">Disponibilidad</h1>
+          <img src="/image1.png" alt="Logo Calendario" className="logo-icono" />
+      </div>
+      <h1 className="namemtelco">emtelco</h1>
+      <img src="/person.png" alt="Logo Person" className="logo-person" />
       <h2>Bienvenido al Calendario de Disponibilidad</h2>
       <label htmlFor="username">Username:</label>
       <input type="text" id="username" />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -10,8 +10,15 @@ const userDirectory = [
   { name: "Pedro", contact: "3025551212" },
 ];
 
+const generarColorAleatorio = (): string => {
+  const getDarkValue = () => Math.floor(Math.random() * 100);
+  return `rgb(${getDarkValue()}, ${getDarkValue()}, ${getDarkValue()})`;
+};
+
 const Calendario = () => {
-  const [areas, setAreas] = useState<string[]>(["CRM", "Marketing", "Programación"]);
+  const calendarRef = useRef<DateSelectArg>(null);
+
+  const [areas] = useState(["CRM", "Marketing", "Programación"]);
   const [selectedArea, setSelectedArea] = useState("CRM");
   const [areaEvents, setAreaEvents] = useState<{ [key: string]: EventInput[] }>({
     CRM: [],
@@ -22,14 +29,6 @@ const Calendario = () => {
   const [selectedRange, setSelectedRange] = useState<{ start: string; end: string } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
-
-  const generarColorAleatorio = (): string => {
-  const getDarkValue = () => Math.floor(Math.random() * 100); //colores 
-  const r = getDarkValue();
-  const g = getDarkValue();
-  const b = getDarkValue();
-  return `rgb(${r}, ${g}, ${b})`;
-};
 
   const handleSelect = (info: DateSelectArg) => {
     setSelectedRange({ start: info.startStr, end: info.endStr });
@@ -81,7 +80,8 @@ const Calendario = () => {
     setAreaEvents((prev) => {
       const updated = { ...prev };
       updated[selectedArea] = updated[selectedArea].filter(
-        (event) => event.start !== clickInfo.event.startStr || event.title !== clickInfo.event.title
+        (event) =>
+          event.start !== clickInfo.event.startStr || event.title !== clickInfo.event.title
       );
       return updated;
     });
@@ -90,12 +90,11 @@ const Calendario = () => {
   const isDateRangeAvailable = (startStr: string, endStr: string): boolean => {
     const startDate = new Date(startStr);
     const endDate = new Date(endStr);
-
     const allEvents = Object.values(areaEvents).flat();
 
     for (let d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
       const dayStr = d.toISOString().slice(0, 10);
-      const isTaken = allEvents.some(event => {
+      const isTaken = allEvents.some((event) => {
         const eventDate = new Date(event.start as string).toISOString().slice(0, 10);
         return eventDate === dayStr;
       });
@@ -103,14 +102,25 @@ const Calendario = () => {
     }
     return true;
   };
-  const handleClearCalendar = () => {
-    const confirmClear = window.confirm("¿Estás seguro de que quieres limpiar el calendario?");
-    if (confirmClear) {
-      setAreaEvents((prev) => ({
+
+  const limpiarMesActual = () => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (!calendarApi) return;
+
+    const startOfMonth = calendarApi.view.currentStart;
+    const endOfMonth = calendarApi.view.currentEnd;
+
+    setAreaEvents((prev) => {
+      const eventosFiltrados = prev[selectedArea].filter((event) => {
+        const eventDate = new Date(event.start as string);
+        return eventDate < startOfMonth || eventDate >= endOfMonth;
+      });
+
+      return {
         ...prev,
-        [selectedArea]: [],
-      }));
-    }
+        [selectedArea]: eventosFiltrados,
+      };
+    });
   };
 
   return (
@@ -136,22 +146,26 @@ const Calendario = () => {
           </div>
         </>
       )}
-      <button onClick={handleClearCalendar} className="boton-limpiar">Limpiar Calendario</button>
+
+      <button onClick={limpiarMesActual} className="boton-limpiar">
+        Limpiar mes actual
+      </button>
 
       <FullCalendar
+        ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={areaEvents[selectedArea]}
-        selectable={true}
+        selectable
         select={handleSelect}
         eventClick={handleEventClick}
         validRange={{ start: new Date() }}
         locale="es"
         height="auto"
         showNonCurrentDates={false}
-        selectAllow={(selectInfo) => {
-          return isDateRangeAvailable(selectInfo.startStr, selectInfo.endStr);
-        }}
+        selectAllow={(selectInfo) =>
+          isDateRangeAvailable(selectInfo.startStr, selectInfo.endStr)
+        }
       />
     </div>
   );

@@ -8,15 +8,17 @@ const DisponibilidadPage = () => {
   
   return (
     <div className="CompletePage">
-      <h1 className="namemtelco">EMTELCO</h1>
-
+      <h1 className="namemtelco">emtelco</h1>
+      
       <div className="icono-superior">
+
         <h1 className="SubtituloCalendario">Disponibilidad</h1>
+        
         <img src="/image1.png" alt="Logo Calendario" className="logo-icono" />
       </div>
-
-      <div className="calendar-container">
       <h1 className="disponibilidadHead"> Calendario de Disponibilidad</h1>
+      <div className="calendar-container">
+      
         <Calendario />
       </div>
     </div>

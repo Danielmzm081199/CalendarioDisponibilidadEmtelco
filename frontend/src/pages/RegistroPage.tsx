@@ -6,7 +6,12 @@ const RegistroPage = () => {
   
   return (
     <div className="CompletePage">
-      <h1 className="namemtelco">EMTELCO</h1>
+        <div className="icono-superior">
+            <h1 className="SubtituloCalendario">Disponibilidad</h1>
+            <img src="/image1.png" alt="Logo Calendario" className="logo-icono" />
+        </div>
+      <h1 className="namemtelco">emtelco</h1>
+      
 
       <div className="">
         <Registro/>

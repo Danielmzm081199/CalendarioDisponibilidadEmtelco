@@ -1,4 +1,0 @@
-@Repository
-public interface UserEventRepository extends JpaRepository<UserEvent, Long> {
-    List<UserEvent> findByArea(String area);
-}

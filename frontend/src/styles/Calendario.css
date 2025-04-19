@@ -11,15 +11,21 @@
   align-items: center;
   justify-content: right;
   width: 150dvh;
-  
+  display: flex;
 }
 
-.disponibilidadHead{
-  
+@media (max-width: 768px) {
+  .calendar-container {
+    display: none !important;
+  }
+}
+
+.disponibilidadHead{  
   background-color: #08012d;
   font-family: monospace;
   text-align: center;
   color: rgb(255, 255, 255);
+  
 }
 
 
@@ -99,26 +105,7 @@ input {
   background-color: #c0392b;
 }
 
-.icono-superior {
 
-  position: absolute;
-  top: 30px;
-  left: 20px;
-  z-index: 999;
-}
-
-.logo-icono {
-  width: 60px;
-  height: 60px;
-}
-
-.SubtituloCalendario{
-  color: rgb(255, 255, 255);
-  position: absolute;
-  top: 1px;
-  left: 70px;
-
-}
 
 
 

@@ -1,3 +1,12 @@
+package service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import entity.UserEvent;
+import repository.UserEventRepository;
+
 @Service
 public class UserEventService {
 
