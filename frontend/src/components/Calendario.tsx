@@ -16,7 +16,7 @@ const generarColorAleatorio = (): string => {
 };
 
 const Calendario = () => {
-  const calendarRef = useRef<DateSelectArg>(null);
+  const calendarRef = useRef<Date>(null);
 
   const [areas] = useState(["CRM", "Marketing", "Programación"]);
   const [selectedArea, setSelectedArea] = useState("CRM");

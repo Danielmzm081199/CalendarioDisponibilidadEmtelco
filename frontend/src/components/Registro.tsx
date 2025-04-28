@@ -3,13 +3,15 @@ import "../styles/Registro.css";
 
 const Registro = () => {
   const [area, setArea] = useState("");
-  const [nombre, setNombre] = useState("");
+  const [nombre, setNombre] = useState("") 
   const [contacto, setContacto] = useState("");
+  const [username, setUsername] = useState("");
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí puedes hacer una petición al backend con los datos
-    console.log("Datos registrados:", { area, nombre, contacto });
+    // Aquí peticion con el backend
+    console.log("Datos registrados:", { area, nombre, username, contacto });
     alert("Usuario registrado correctamente");
     setArea("");
     setNombre("");
@@ -20,7 +22,7 @@ const Registro = () => {
     <div className="form-container">
       <h2>Registro de Usuario</h2>
       <form onSubmit={handleSubmit}>
-        <label>Área:</label>
+        <label>Area:</label>
         <input
           type="text"
           value={area}
@@ -49,6 +51,22 @@ const Registro = () => {
           }}
           required
           maxLength={10}
+        />
+
+       <label>Usuario de Red:</label>
+        <input
+          type="text" 
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+
+       <label>Contrasena:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
         />
 
         <button type="submit">Registrarme</button>

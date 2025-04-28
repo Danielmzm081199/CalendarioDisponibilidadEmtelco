@@ -38,9 +38,9 @@ const LoginPage = () => {
       <h1 className="namemtelco">emtelco</h1>
       <img src="/person.png" alt="Logo Person" className="logo-person" />
       <h2>Bienvenido al Calendario de Disponibilidad</h2>
-      <label htmlFor="username">Username:</label>
+      <label htmlFor="username">Usuario de red:</label>
       <input type="text" id="username" />
-      <label htmlFor="password">Password:</label>
+      <label htmlFor="password">Contrasena:</label>
       <input type="password" id="password" />
       <button onClick={handleLogin}>Iniciar Sesión</button>
       <div className="error-message">{errorMessage}</div>
