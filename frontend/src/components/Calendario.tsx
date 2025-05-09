@@ -4,37 +4,64 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { DateSelectArg, EventClickArg, EventInput } from "@fullcalendar/core";
 
+// Directorio de usuarios
 const userDirectory = [
   { name: "Daniel", contact: "3001234567" },
   { name: "Laura", contact: "3019876543" },
   { name: "Pedro", contact: "3025551212" },
 ];
 
+// Lista de áreas de la empresa
+const AreasEmpresa = [
+  "Administración de Usuarios",
+  "Aplicaciones no Core",
+  "Bases de Datos",
+  "BI & Reportes",
+  "Centro de Computo",
+  "CRM",
+  "Fábrica BOTS",
+  "Fábrica RPA",
+  "Incidencias Masivas",
+  "IVR",
+  "Plataforma de Grabaciones",
+  "Plataforma de Servidores",
+  "Redes Bogotá",
+  "Redes Medellín",
+  "Seguridad de la Información",
+  "Soporte de Aplicaciones",
+  "Telefonia Medellín-Bogota"
+];
+
+// Función para generar colores oscuros aleatorios
 const generarColorAleatorio = (): string => {
   const getDarkValue = () => Math.floor(Math.random() * 100);
   return `rgb(${getDarkValue()}, ${getDarkValue()}, ${getDarkValue()})`;
 };
 
-const Calendario = () => {
-  const calendarRef = useRef<Date>(null);
+const Calendario = ({ area }: { area: string }) => {
+  const calendarRef = useRef<any>(null);
+  const selectedArea = area;
 
-  const [areas] = useState(["CRM", "Marketing", "Programación"]);
-  const [selectedArea, setSelectedArea] = useState("CRM");
-  const [areaEvents, setAreaEvents] = useState<{ [key: string]: EventInput[] }>({
-    CRM: [],
-    Marketing: [],
-    Programación: [],
-  });
+  // Estado con eventos por cada área (inicializado dinámicamente)
+  const [areaEvents, setAreaEvents] = useState<{ [key: string]: EventInput[] }>(() =>
+    AreasEmpresa.reduce((acc, area) => {
+      acc[area] = [];
+      return acc;
+    }, {} as { [key: string]: EventInput[] })
+  );
+
   const [nameColors, setNameColors] = useState<{ [key: string]: string }>({});
   const [selectedRange, setSelectedRange] = useState<{ start: string; end: string } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
 
+  // Cuando se selecciona un rango de fechas en el calendario
   const handleSelect = (info: DateSelectArg) => {
     setSelectedRange({ start: info.startStr, end: info.endStr });
     setShowModal(true);
   };
 
+  // Al guardar evento
   const handleSubmit = () => {
     if (selectedUserIndex === null || !selectedRange) return;
 
@@ -68,11 +95,13 @@ const Calendario = () => {
       [selectedArea]: [...(prev[selectedArea] || []), ...newEvents],
     }));
 
+    // Limpiar selección y cerrar modal
     setShowModal(false);
     setSelectedUserIndex(null);
     setSelectedRange(null);
   };
 
+  // Eliminar evento al hacer click
   const handleEventClick = (clickInfo: EventClickArg) => {
     const confirmDelete = window.confirm("¿Deseas eliminar este evento?");
     if (!confirmDelete) return;
@@ -87,10 +116,11 @@ const Calendario = () => {
     });
   };
 
+  // Validar que un rango de fechas esté disponible
   const isDateRangeAvailable = (startStr: string, endStr: string): boolean => {
     const startDate = new Date(startStr);
     const endDate = new Date(endStr);
-    const allEvents = Object.values(areaEvents).flat();
+    const allEvents = areaEvents[selectedArea] || [];
 
     for (let d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
       const dayStr = d.toISOString().slice(0, 10);
@@ -103,6 +133,7 @@ const Calendario = () => {
     return true;
   };
 
+  // Limpiar eventos del mes actual
   const limpiarMesActual = () => {
     const calendarApi = calendarRef.current?.getApi();
     if (!calendarApi) return;
@@ -125,6 +156,7 @@ const Calendario = () => {
 
   return (
     <div>
+      {/* Modal de selección de usuario */}
       {showModal && (
         <>
           <div className="overlay" />

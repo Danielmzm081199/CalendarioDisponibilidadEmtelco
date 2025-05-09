@@ -6,7 +6,7 @@ const Registro = () => {
   const [nombre, setNombre] = useState("") 
   const [contacto, setContacto] = useState("");
   const [username, setUsername] = useState("");
-
+  const [contrasena, setContrasena] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,6 +16,8 @@ const Registro = () => {
     setArea("");
     setNombre("");
     setContacto("");
+    setUsername("");
+    setContrasena("")
   };
 
   return (
@@ -64,8 +66,8 @@ const Registro = () => {
        <label>Contrasena:</label>
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={contrasena}
+          onChange={(e) => setContrasena(e.target.value)}
           required
         />
 

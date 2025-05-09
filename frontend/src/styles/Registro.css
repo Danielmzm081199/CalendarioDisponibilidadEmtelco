@@ -10,6 +10,9 @@
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     width: 350px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  
   }
   
   .form-container h2 {

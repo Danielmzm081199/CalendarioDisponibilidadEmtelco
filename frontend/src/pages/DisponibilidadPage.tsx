@@ -10,16 +10,14 @@ const DisponibilidadPage = () => {
     <div className="CompletePage">
       <h1 className="namemtelco">emtelco</h1>
       
-      <div className="icono-superior">
-
-        <h1 className="SubtituloCalendario">Disponibilidad</h1>
-        
+      <div className="icono-superior">  
         <img src="/image1.png" alt="Logo Calendario" className="logo-icono" />
       </div>
       <h1 className="disponibilidadHead"> Calendario de Disponibilidad</h1>
       <div className="calendar-container">
-      
-        <Calendario />
+        
+        <Calendario area="CRM" />
+       
       </div>
     </div>
   );

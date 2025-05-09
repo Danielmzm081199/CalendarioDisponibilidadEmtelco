@@ -1,10 +1,10 @@
-package AplicacionEmtelco.BackendAppEmtelco;
+package BackendCaledario.Backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendAppEmtelcoApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
